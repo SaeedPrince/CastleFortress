@@ -76,3 +76,6 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# ini file
+FileHandler/FileHandler.ini
