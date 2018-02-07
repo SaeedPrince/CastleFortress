@@ -1,0 +1,35 @@
+fix behavior tree:
+1- fight with oppo
+
+2- follow the boss
+
+3- replace service with decorator
+
+4- add how to fight
+	1- get opponent state:
+		1- attack pose:
+			defend or dodge randomly
+			goto 1
+			break;
+
+		2- attack exe:
+			defend or dodge randomly
+			goto 1
+			break;
+
+		3- defend:
+			flank
+			move around keep facing to opponent
+
+		4- rebounce:
+			attack
+
+		5- hit:
+			reposition
+
+		6- Idle:
+			attack
+
+5- add 1st person fight
+
+6- remove extra assets
