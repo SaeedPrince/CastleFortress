@@ -7,6 +7,10 @@ fix behavior tree:
 
 4- add how to fight
 	1- get opponent state:
+		0- Idle:
+			attack
+			break;
+
 		1- attack pose:
 			defend or dodge randomly
 			goto 1
@@ -27,8 +31,6 @@ fix behavior tree:
 		5- hit:
 			reposition
 
-		6- Idle:
-			attack
 
 5- add 1st person fight
 
