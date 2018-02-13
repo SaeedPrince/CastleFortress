@@ -48,6 +48,12 @@ bool UFacePawnToLocation::_IsPawnFacingToActor()
 	return retBool;
 }
 
+float UFacePawnToLocation::_AngleBetweenVecs(FVector VectorA, FVector VectorB)
+{
+	float retFloat = 0;
+	return retFloat;
+}
+
 void UFacePawnToLocation::_TurnControl()
 {
 
@@ -60,3 +66,6 @@ void UFacePawnToLocation::_Finish()
 	Finished.Broadcast(Okay);
 	Active = false;
 }
+
+
+

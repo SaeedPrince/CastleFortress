@@ -23,11 +23,6 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true", WorldContext = "WorldContextObject"), Category = "AI|Rotation")
 		static UFacePawnToLocation* FacePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float AcceptableAngle, const float TurnInterval, const float EndTime);
 
-	/*
-	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true", WorldContext = "WorldContextObject"), Category = "AI|Rotation")
-		static UFacePawnToLocation* FacePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float Acc
-	*/
-
 	// UBlueprintAsyncActionBase interface
 	virtual void Activate() override;
 	//~UBlueprintAsyncActionBase interface
@@ -35,11 +30,13 @@ public:
 private:
 
 	UFUNCTION()
+		bool _IsPawnFacingToActor();
+	UFUNCTION()
+		float _AngleBetweenVecs(FVector VectorA, FVector VectorB);
+	UFUNCTION()
 		void _TurnControl();
 	UFUNCTION()
 		void _Finish();
-	UFUNCTION()
-		bool _IsPawnFacingToActor();
 
 	const UObject* WorldContextObject;
 	bool Active;
