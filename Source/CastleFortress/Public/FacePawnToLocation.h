@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFacePawnToLocationOutputPin, bool, Success);
 
+
 /**
  * 
  */
@@ -34,9 +35,15 @@ private:
 	UFUNCTION()
 		float _AngleBetweenVecs(FVector VectorA, FVector VectorB);
 	UFUNCTION()
+		FVector _PawnDirection();
+	UFUNCTION()
 		void _TurnControl();
 	UFUNCTION()
 		void _Finish();
+	UFUNCTION()
+		float _ClockWise();
+	UFUNCTION()
+		void _TurnOnePoint(float Value);
 
 	const UObject* WorldContextObject;
 	bool Active;

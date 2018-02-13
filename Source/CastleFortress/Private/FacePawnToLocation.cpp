@@ -32,6 +32,7 @@ void UFacePawnToLocation::Activate()
 	if (_IsPawnFacingToActor())
 	{
 		Okay = true;
+		_Finish();
 	}
 	else
 	{
@@ -39,24 +40,81 @@ void UFacePawnToLocation::Activate()
 		WorldContextObject->GetWorld()->GetTimerManager().SetTimer(TimerTurnControl, this, &UFacePawnToLocation::_TurnControl, TurnInterval, true);
 		WorldContextObject->GetWorld()->GetTimerManager().SetTimer(TimerEndTime, this, &UFacePawnToLocation::_Finish, EndTime);
 	}
-
+	Active = true;
 }
 
 bool UFacePawnToLocation::_IsPawnFacingToActor()
 {
 	bool retBool = false;
+	FVector CharacterLocation = Pawn->GetActorLocation();
+	FVector VectorA = ActorLocation - CharacterLocation;
+	FVector VectorB = _PawnDirection();
+	float anyFloat;
+	anyFloat = _AngleBetweenVecs(VectorA, VectorB);
+	if (anyFloat <= AcceptableAngle)
+	{
+		retBool = true;
+	}
 	return retBool;
+}
+
+FVector UFacePawnToLocation::_PawnDirection()
+{
+	FRotator MyRot = Pawn->GetActorRotation();
+	FVector RotXVector = MyRot.Vector();
+	return RotXVector;
 }
 
 float UFacePawnToLocation::_AngleBetweenVecs(FVector VectorA, FVector VectorB)
 {
 	float retFloat = 0;
+	FVector a = FVector(VectorA.X, VectorA.Y, 0);
+	a.Normalize();
+	FVector b = FVector(VectorB.X, VectorB.Y, 0);
+	b.Normalize();
+	float dtproduct = FVector::DotProduct(a, b);
+	float radValue = FGenericPlatformMath::Acos(dtproduct);
+	retFloat = FMath::RadiansToDegrees(radValue);
+	return retFloat;
+}
+
+float UFacePawnToLocation::_ClockWise()
+{
+	float retFloat;
+	FVector CharacterLocation = Pawn->GetActorLocation();
+	FVector VectorA = ActorLocation - CharacterLocation;
+	FVector VectorB = _PawnDirection();
+	FVector crssproduct = FVector::CrossProduct(VectorA, VectorB);
+	if (crssproduct.Z > 0)
+	{
+		retFloat = -1;
+	}
+	else
+	{
+		retFloat = 1;
+
+	}
 	return retFloat;
 }
 
 void UFacePawnToLocation::_TurnControl()
 {
+	if (_IsPawnFacingToActor())
+	{
+		Okay = true;
+		_Finish();
+	}
+	else
+	{
+		_TurnOnePoint(_ClockWise());
+	}
+}
 
+void UFacePawnToLocation::_TurnOnePoint(float Value)
+{
+	FRotator finalRot =	Pawn->GetActorRotation();
+	finalRot.Yaw += Value;
+	Pawn->SetActorRotation(finalRot);
 }
 
 void UFacePawnToLocation::_Finish()
