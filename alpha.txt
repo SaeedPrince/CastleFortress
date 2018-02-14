@@ -1,11 +1,4 @@
-fix behavior tree:
-1- fight with oppo
-
-2- follow the boss
-
-3- replace service with decorator
-
-4- add how to fight
+1- add how to fight
 	1- get opponent state:
 		0- idle:
 			attack
@@ -31,6 +24,12 @@ fix behavior tree:
 		7- reposition:
 			attack
 
-5- add 1st person fight
+2- Add end game
 
-6- remove extra assets
+3- add 1st person fight
+
+4- fix hit add force direction
+
+5- fix own sword hit with shild
+
+6- remove friendly fire
