@@ -33,3 +33,5 @@
 5- fix own sword hit with shild
 
 6- remove friendly fire
+
+7- Credits

@@ -23,13 +23,11 @@ void UAsyncAction::Activate()
 		FFrame::KismetExecutionMessage(TEXT("Already running."), ELogVerbosity::Warning);
 		return;
 	}
-
 	Active = true;
+	_Start();
 	FTimerHandle ShuttingOffTimer;
-
 	WorldContextObject->GetWorld()->GetTimerManager().SetTimer(TimerUpdate, this, &UAsyncAction::_Update, UpdateInterval, true);
 	WorldContextObject->GetWorld()->GetTimerManager().SetTimer(ShuttingOffTimer, this, &UAsyncAction::_Finish, EndTime);
-	_Start();
 }
 
 void UAsyncAction::_Start()
