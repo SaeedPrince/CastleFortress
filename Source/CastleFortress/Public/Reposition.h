@@ -27,8 +27,7 @@ public:
 	virtual void Activate() override;
 	//~UBlueprintAsyncActionBase interface
 
-private:
-
+protected:
 	UFUNCTION()
 		bool _IsPawnFacingToActor();
 	UFUNCTION()
@@ -38,25 +37,20 @@ private:
 	UFUNCTION()
 		FVector _PawnDirection();
 	UFUNCTION()
-		void _TurnControl();
+		virtual void _TurnControl();
 	UFUNCTION()
-		void _MoveControl();
+		virtual void _MoveControl();
 	UFUNCTION()
-		void _DoneControl();
-	UFUNCTION()
-		void _Finish();
+		virtual void _Finish();
 	UFUNCTION()
 		float _ClockWise();
 	UFUNCTION()
 		void _TurnOnePoint(float Value);
 	UFUNCTION()
 		void _MoveOnePoint();
-
-	const UObject* WorldContextObject;
 	bool Active;
 	bool faceOkay;
 	bool placeOkay;
-	bool Okay;
 	APawn* Pawn;
 	FVector Destination;
 	float TurnInterval;
@@ -66,5 +60,12 @@ private:
 	float AcceptableDistance;
 	FTimerHandle TimerTurnControl;
 	FTimerHandle TimerMoveControl;
+
+private:
+	UFUNCTION()
+		void _DoneControl();
+	const UObject* WorldContextObject;
+	bool Okay;
 	FTimerHandle TimerDoneControl;
+
 };

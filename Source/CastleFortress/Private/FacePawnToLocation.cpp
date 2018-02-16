@@ -2,12 +2,12 @@
 
 #include "FacePawnToLocation.h"
 
-UFacePawnToLocation* UFacePawnToLocation::FacePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float AcceptableAngle, const float TurnInterval, const float EndTime)
+UFacePawnToLocation* UFacePawnToLocation::FacePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector Destination, const float AcceptableAngle, const float TurnInterval, const float EndTime)
 {
 	UFacePawnToLocation* Node = NewObject<UFacePawnToLocation>();
 	Node->WorldContextObject = WorldContextObject;
 	Node->Pawn = Pawn;
-	Node->ActorLocation = ActorLocation;
+	Node->Destination = Destination;
 	Node->AcceptableAngle = AcceptableAngle;
 	Node->TurnInterval = TurnInterval;
 	Node->EndTime = EndTime;
@@ -24,14 +24,14 @@ void UFacePawnToLocation::Activate()
 	}
 	if (Active)
 	{
-		FFrame::KismetExecutionMessage(TEXT("MiniTimer is already running."), ELogVerbosity::Warning);
+		FFrame::KismetExecutionMessage(TEXT("Is already running."), ELogVerbosity::Warning);
 		return;
 	}
 
-	Okay = false;
+	faceOkay = false;
 	if (_IsPawnFacingToActor())
 	{
-		Okay = true;
+		faceOkay = true;
 		_Finish();
 	}
 	else
@@ -43,65 +43,11 @@ void UFacePawnToLocation::Activate()
 	Active = true;
 }
 
-bool UFacePawnToLocation::_IsPawnFacingToActor()
-{
-	bool retBool = false;
-	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector VectorA = ActorLocation - CharacterLocation;
-	FVector VectorB = _PawnDirection();
-	float anyFloat;
-	anyFloat = _AngleBetweenVecs(VectorA, VectorB);
-	if (anyFloat <= AcceptableAngle)
-	{
-		retBool = true;
-	}
-	return retBool;
-}
-
-FVector UFacePawnToLocation::_PawnDirection()
-{
-	FRotator MyRot = Pawn->GetActorRotation();
-	FVector RotXVector = MyRot.Vector();
-	return RotXVector;
-}
-
-float UFacePawnToLocation::_AngleBetweenVecs(FVector VectorA, FVector VectorB)
-{
-	float retFloat = 0;
-	FVector a = FVector(VectorA.X, VectorA.Y, 0);
-	a.Normalize();
-	FVector b = FVector(VectorB.X, VectorB.Y, 0);
-	b.Normalize();
-	float dtproduct = FVector::DotProduct(a, b);
-	float radValue = FGenericPlatformMath::Acos(dtproduct);
-	retFloat = FMath::RadiansToDegrees(radValue);
-	return retFloat;
-}
-
-float UFacePawnToLocation::_ClockWise()
-{
-	float retFloat;
-	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector VectorA = ActorLocation - CharacterLocation;
-	FVector VectorB = _PawnDirection();
-	FVector crssproduct = FVector::CrossProduct(VectorA, VectorB);
-	if (crssproduct.Z > 0)
-	{
-		retFloat = -1;
-	}
-	else
-	{
-		retFloat = 1;
-
-	}
-	return retFloat;
-}
-
 void UFacePawnToLocation::_TurnControl()
 {
 	if (_IsPawnFacingToActor())
 	{
-		Okay = true;
+		faceOkay = true;
 		_Finish();
 	}
 	else
@@ -110,18 +56,11 @@ void UFacePawnToLocation::_TurnControl()
 	}
 }
 
-void UFacePawnToLocation::_TurnOnePoint(float Value)
-{
-	FRotator finalRot =	Pawn->GetActorRotation();
-	finalRot.Yaw += Value;
-	Pawn->SetActorRotation(finalRot);
-}
-
 void UFacePawnToLocation::_Finish()
 {
 	WorldContextObject->GetWorld()->GetTimerManager().ClearTimer(TimerTurnControl);
 	TimerTurnControl.Invalidate();
-	Finished.Broadcast(Okay);
+	Finished.Broadcast(faceOkay);
 	Active = false;
 }
 

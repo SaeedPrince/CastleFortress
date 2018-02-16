@@ -2,12 +2,12 @@
 
 #include "MovePawnToLocation.h"
 
-UMovePawnToLocation* UMovePawnToLocation::MovePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float AcceptableDistance, const float MoveInterval, const float EndTime)
+UMovePawnToLocation* UMovePawnToLocation::MovePawnToLocation(const UObject* WorldContextObject, APawn* Pawn, FVector Destination, const float AcceptableDistance, const float MoveInterval, const float EndTime)
 {
 	UMovePawnToLocation* Node = NewObject<UMovePawnToLocation>();
 	Node->WorldContextObject = WorldContextObject;
 	Node->Pawn = Pawn;
-	Node->ActorLocation = ActorLocation;
+	Node->Destination = Destination;
 	Node->AcceptableDistance = AcceptableDistance;
 	Node->MoveInterval = MoveInterval;
 	Node->EndTime = EndTime;
@@ -28,10 +28,10 @@ void UMovePawnToLocation::Activate()
 		return;
 	}
 
-	Okay = false;
+	placeOkay = false;
 	if (_IsPawnCloseToActor())
 	{
-		Okay = true;
+		placeOkay = true;
 		_Finish();
 	}
 	else
@@ -43,24 +43,11 @@ void UMovePawnToLocation::Activate()
 	Active = true;
 }
 
-bool UMovePawnToLocation::_IsPawnCloseToActor()
-{
-	bool retBool = false;
-	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
-	if (DistanceVector.Size() <= AcceptableDistance)
-	{
-		retBool = true;
-	}
-	return retBool;
-}
-
-
 void UMovePawnToLocation::_MoveControl()
 {
 	if (_IsPawnCloseToActor())
 	{
-		Okay = true;
+		placeOkay = true;
 		_Finish();
 	}
 	else
@@ -69,17 +56,10 @@ void UMovePawnToLocation::_MoveControl()
 	}
 }
 
-void UMovePawnToLocation::_MoveOnePoint()
-{
-	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
-	Pawn->AddMovementInput(DistanceVector, 1.0f);
-}
-
 void UMovePawnToLocation::_Finish()
 {
 	WorldContextObject->GetWorld()->GetTimerManager().ClearTimer(TimerMoveControl);
 	TimerMoveControl.Invalidate();
-	Finished.Broadcast(Okay);
+	Finished.Broadcast(placeOkay);
 	Active = false;
 }
