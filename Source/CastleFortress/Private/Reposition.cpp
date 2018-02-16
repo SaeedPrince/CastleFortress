@@ -2,12 +2,12 @@
 
 #include "Reposition.h"
 
-UReposition* UReposition::Reposition(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float AcceptableAngle, const float AcceptableDistance, const float TurnInterval, const float MoveInterval, const float EndTime)
+UReposition* UReposition::Reposition(const UObject* WorldContextObject, APawn* Pawn, FVector Destination, const float AcceptableAngle, const float AcceptableDistance, const float TurnInterval, const float MoveInterval, const float EndTime)
 {
 	UReposition* Node = NewObject<UReposition>();
 	Node->WorldContextObject = WorldContextObject;
 	Node->Pawn = Pawn;
-	Node->ActorLocation = ActorLocation;
+	Node->Destination = Destination;
 	Node->AcceptableAngle = AcceptableAngle;
 	Node->AcceptableDistance = AcceptableDistance;
 	Node->TurnInterval = TurnInterval;
@@ -60,7 +60,7 @@ bool UReposition::_IsPawnFacingToActor()
 {
 	bool retBool = false;
 	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
+	FVector DistanceVector = Destination - CharacterLocation;
 	FVector DirectionVector = _PawnDirection();
 	float anyFloat = _AngleBetweenVecs(DistanceVector, DirectionVector);
 	if (anyFloat <= AcceptableAngle)
@@ -74,7 +74,7 @@ bool UReposition::_IsPawnCloseToActor()
 {
 	bool retBool = false;
 	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
+	FVector DistanceVector = Destination - CharacterLocation;
 	if (DistanceVector.Size() <= AcceptableDistance)
 	{
 		retBool = true;
@@ -107,7 +107,7 @@ float UReposition::_ClockWise()
 {
 	float retFloat;
 	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
+	FVector DistanceVector = Destination - CharacterLocation;
 	FVector DirectionVector = _PawnDirection();
 	FVector crssproduct = FVector::CrossProduct(DistanceVector, DirectionVector);
 	if (crssproduct.Z > 0)
@@ -166,7 +166,7 @@ void UReposition::_TurnOnePoint(float Value)
 void UReposition::_MoveOnePoint()
 {
 	FVector CharacterLocation = Pawn->GetActorLocation();
-	FVector DistanceVector = ActorLocation - CharacterLocation;
+	FVector DistanceVector = Destination - CharacterLocation;
 	Pawn->AddMovementInput(DistanceVector, 1.0f);
 }
 

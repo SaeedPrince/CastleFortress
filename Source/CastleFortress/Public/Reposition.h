@@ -21,7 +21,7 @@ public:
 		FRepositionOutputPin Finished;
 
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true", WorldContext = "WorldContextObject"), Category = "AI|Movement")
-		static UReposition* Reposition(const UObject* WorldContextObject, APawn* Pawn, FVector ActorLocation, const float AcceptableAngle, const float AcceptableDistance, const float TurnInterval, const float MoveInterval, const float EndTime);
+		static UReposition* Reposition(const UObject* WorldContextObject, APawn* Pawn, FVector Destination, const float AcceptableAngle, const float AcceptableDistance, const float TurnInterval, const float MoveInterval, const float EndTime);
 
 	// UBlueprintAsyncActionBase interface
 	virtual void Activate() override;
@@ -58,7 +58,7 @@ private:
 	bool placeOkay;
 	bool Okay;
 	APawn* Pawn;
-	FVector ActorLocation;
+	FVector Destination;
 	float TurnInterval;
 	float MoveInterval;
 	float EndTime;
