@@ -18,5 +18,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Math")
 	static float IntPowerOfFloat(const float fltNumber, const int intNumber);
 
-	
+	UFUNCTION(BlueprintPure, Category = "Character|Location")
+		static bool IsPointCloseToLocation2D(FVector2D Point, FVector2D Location, const float AcceptableDistance);
+
+	UFUNCTION(BlueprintPure, Category = "Character|Location")
+		static FVector2D HowPointCloseToLocation2D(FVector2D Point, FVector2D Location);
 };
