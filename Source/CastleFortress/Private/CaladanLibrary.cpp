@@ -2,6 +2,14 @@
 
 #include "CaladanLibrary.h"
 
+FString UCaladanLibrary::HitJoint(const FString PrimitiveComponentName)
+{
+	FString retString;
+
+	return retString;
+}
+
+
 float UCaladanLibrary::IntPowerOfFloat(const float fltNumber, const int intNumber)
 {
 	float retFloat = 1.0f;
@@ -12,10 +20,10 @@ float UCaladanLibrary::IntPowerOfFloat(const float fltNumber, const int intNumbe
 	return retFloat;
 }
 
-bool UCaladanLibrary::IsPointCloseToLocation2D(FVector2D Point, FVector2D Location, const float AcceptableDistance)
+bool UCaladanLibrary::IsPointCloseToLocation(FVector Point, FVector Location, const float AcceptableDistance)
 {
 	bool retBool = false;
-	FVector2D DistanceVec = Location - Point;
+	FVector DistanceVec = Location - Point;
 	float Distance = DistanceVec.Size();
 	if (Distance <= AcceptableDistance)
 	{
@@ -24,9 +32,9 @@ bool UCaladanLibrary::IsPointCloseToLocation2D(FVector2D Point, FVector2D Locati
 	return retBool;
 }
 
-FVector2D UCaladanLibrary::HowPointCloseToLocation2D(FVector2D Point, FVector2D Location)
+FVector UCaladanLibrary::HowPointCloseToLocation(FVector Point, FVector Location)
 {
-	FVector2D retVec;
+	FVector retVec;
 	retVec = Location - Point;
 	return retVec;
 }

@@ -15,12 +15,15 @@ class CASTLEFORTRESS_API UCaladanLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintPure, Category = "Character|Hit")
+		static FString HitJoint(const FString PrimitiveComponentName);
+
+	UFUNCTION(BlueprintPure, Category = "Character|Location")
+		static bool IsPointCloseToLocation(FVector Point, FVector Location, const float AcceptableDistance);
+
+	UFUNCTION(BlueprintPure, Category = "Character|Location")
+		static FVector HowPointCloseToLocation(FVector Point, FVector Location);
+
 	UFUNCTION(BlueprintPure, Category = "Math")
-	static float IntPowerOfFloat(const float fltNumber, const int intNumber);
-
-	UFUNCTION(BlueprintPure, Category = "Character|Location")
-		static bool IsPointCloseToLocation2D(FVector2D Point, FVector2D Location, const float AcceptableDistance);
-
-	UFUNCTION(BlueprintPure, Category = "Character|Location")
-		static FVector2D HowPointCloseToLocation2D(FVector2D Point, FVector2D Location);
+		static float IntPowerOfFloat(const float fltNumber, const int intNumber);
 };

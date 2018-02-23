@@ -1,0 +1,16 @@
+singleplayer: 
+	1- starting from multimenu as server
+
+	2- starting from fortress as server
+
+multiplayer:
+	1- starting from multimenu as server
+
+	2- starting from multimenu as client
+
+	3- starting from fortress as server
+
+	4- starting from fortress as client
+
+
+
